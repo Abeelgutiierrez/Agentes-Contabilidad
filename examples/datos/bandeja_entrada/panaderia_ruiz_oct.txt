@@ -1,0 +1,13 @@
+PANADERÍA HERMANOS RUIZ
+NIF: 12345678Z
+
+FACTURA
+Nº factura: PR-2026-118
+Fecha: 30/10/2026
+Cliente: Cafetería La Plaza SL
+NIF cliente: B12345674
+
+Pan y bollería octubre
+Base imponible: 100,00
+IVA (4%): 4,00
+Total: 140,00

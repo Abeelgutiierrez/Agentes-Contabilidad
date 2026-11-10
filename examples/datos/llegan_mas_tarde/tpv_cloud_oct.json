@@ -1,0 +1,7 @@
+{
+  "numero": "TPV-10-5531",
+  "fecha": "2026-10-03",
+  "emisor": {"nif": "B45678901", "nombre": "Software TPV Cloud SL", "email": "facturacion@tpvcloud.example"},
+  "receptor": {"nif": "B12345674", "nombre": "Cafetería La Plaza SL"},
+  "lineas": [{"descripcion": "Suscripción TPV octubre", "cantidad": 1, "precio_unitario": "40.00", "tipo_iva": 21}]
+}

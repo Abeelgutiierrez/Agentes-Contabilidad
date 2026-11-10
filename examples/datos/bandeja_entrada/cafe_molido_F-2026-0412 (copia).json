@@ -1,0 +1,13 @@
+{
+  "numero": "0412",
+  "serie": "F-2026-",
+  "fecha": "2026-10-05",
+  "vencimiento": "2026-10-20",
+  "emisor": {"nif": "B23456783", "nombre": "Café Molido Distribuciones SL", "email": "pedidos@cafemolido.example"},
+  "receptor": {"nif": "B12345674", "nombre": "Cafetería La Plaza SL"},
+  "lineas": [
+    {"descripcion": "Café en grano mezcla 1kg", "cantidad": 20, "precio_unitario": "12.50", "tipo_iva": 10},
+    {"descripcion": "Café descafeinado 1kg", "cantidad": 4, "precio_unitario": "12.50", "tipo_iva": 10}
+  ],
+  "total": "330.00"
+}

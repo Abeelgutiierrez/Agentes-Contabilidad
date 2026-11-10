@@ -1,0 +1,35 @@
+{
+  "empresa": {
+    "nif": "B12345674",
+    "nombre": "Cafetería La Plaza SL",
+    "email": "administracion@cafeterialaplaza.example"
+  },
+  "entorno_verifactu": "pruebas",
+  "carpeta_datos": "./datos_runtime",
+  "politicas": {
+    "dias_gracia_factura": 5,
+    "dias_entre_reclamaciones": 7,
+    "max_reclamaciones": 3,
+    "dias_vencimiento": 30,
+    "serie_por_defecto": "A"
+  },
+  "terceros": [
+    {"nif": "B23456783", "nombre": "Café Molido Distribuciones SL", "email": "pedidos@cafemolido.example", "es_proveedor": true, "alias_bancarios": ["CAFE MOLIDO"]},
+    {"nif": "B34567891", "nombre": "Eléctrica del Sur SL", "email": "clientes@electricadelsur.example", "es_proveedor": true, "recurrente": true, "alias_bancarios": ["ELECTRICA DEL SUR"]},
+    {"nif": "B45678901", "nombre": "Software TPV Cloud SL", "email": "facturacion@tpvcloud.example", "es_proveedor": true, "recurrente": true, "alias_bancarios": ["SOFTWARE TPV", "TPV CLOUD"]},
+    {"nif": "B56789019", "nombre": "Alquileres Centro SL", "email": "admin@alquilerescentro.example", "es_proveedor": true, "recurrente": true, "alias_bancarios": ["ALQUILERES CENTRO"]},
+    {"nif": "12345678Z", "nombre": "Panadería Hermanos Ruiz", "email": "panaderia.ruiz@correo.example", "es_proveedor": true},
+    {"nif": "B67890129", "nombre": "Coworking Plaza SL", "email": "pagos@coworkingplaza.example", "es_cliente": true, "alias_bancarios": ["COWORKING PLAZA"]},
+    {"nif": "B78901238", "nombre": "Eventos Norte SL", "email": "contabilidad@eventosnorte.example", "es_cliente": true, "alias_bancarios": ["EVENTOS NORTE"]}
+  ],
+  "conectores": {
+    "documentos": [
+      {"tipo": "carpeta", "ruta": "./datos/bandeja_entrada", "nombre": "carpeta_facturas"}
+    ],
+    "banco": [
+      {"tipo": "csv", "ruta": "./datos/banco/movimientos.csv", "cuenta": "ES00-principal"}
+    ],
+    "correo": {"tipo": "simulado"},
+    "aeat": {"tipo": "simulado"}
+  }
+}

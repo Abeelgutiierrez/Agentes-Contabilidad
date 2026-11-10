@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentes-contabilidad"
+version = "0.1.0"
+description = "Ecosistema de agentes de IA que llevan la contabilidad de pequeños negocios, preparado para VeriFactu."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Abel Gutiérrez" }]
+dependencies = []  # el núcleo solo usa la biblioteca estándar
+
+[project.optional-dependencies]
+ia = ["anthropic>=0.40"]
+pdf = ["pypdf>=4.0"]
+qr = ["qrcode[pil]>=7.4"]
+google = ["google-api-python-client>=2.100", "google-auth>=2.20"]
+aeat = ["requests>=2.31"]
+todo = ["agentes-contabilidad[ia,pdf,qr,google,aeat]"]
+dev = ["pytest>=7"]
+
+[project.scripts]
+agentes-conta = "agentes_contabilidad.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

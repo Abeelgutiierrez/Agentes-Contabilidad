@@ -1,0 +1,14 @@
+ELÉCTRICA DEL SUR SL
+NIF emisor: B34567891
+clientes@electricadelsur.example
+
+FACTURA
+Nº factura: E-88123
+Fecha de emisión: 31/10/2026
+Cliente: Cafetería La Plaza SL
+NIF cliente: B12345674
+
+Periodo de consumo: 01/10/2026 - 31/10/2026
+Base imponible: 70,00
+IVA (21%): 14,70
+Total a pagar: 84,70

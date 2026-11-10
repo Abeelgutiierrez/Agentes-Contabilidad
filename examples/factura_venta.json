@@ -1,0 +1,7 @@
+{
+  "cliente_nif": "B67890129",
+  "cliente_nombre": "Coworking Plaza SL",
+  "lineas": [
+    {"descripcion": "Desayunos de empresa noviembre", "cantidad": 1, "precio_unitario": "500.00", "tipo_iva": 10}
+  ]
+}

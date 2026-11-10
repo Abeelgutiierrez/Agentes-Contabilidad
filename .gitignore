@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.pytest_cache/
+dist/
+build/
+# Datos generados en ejecución (contienen información fiscal real)
+datos_runtime/
+*.sqlite
+*.pkl
+# Certificados
+*.pem
+*.p12
+*.pfx

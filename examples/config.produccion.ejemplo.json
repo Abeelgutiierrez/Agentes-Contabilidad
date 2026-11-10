@@ -1,0 +1,16 @@
+{
+  "empresa": {"nif": "TU_NIF", "nombre": "Tu Empresa SL", "email": "facturas@tuempresa.es"},
+  "entorno_verifactu": "pruebas",
+  "carpeta_datos": "./datos_runtime",
+  "terceros": [],
+  "conectores": {
+    "documentos": [
+      {"tipo": "carpeta", "ruta": "C:/Users/tu_usuario/Google Drive/Facturas recibidas"},
+      {"tipo": "google_drive", "carpeta_id": "ID_DE_LA_CARPETA", "credenciales": "$GOOGLE_APPLICATION_CREDENTIALS"},
+      {"tipo": "imap", "servidor": "imap.gmail.com", "usuario": "$IMAP_USUARIO", "clave": "$IMAP_CLAVE"}
+    ],
+    "banco": [{"tipo": "csv", "ruta": "./banco/movimientos.csv"}],
+    "correo": {"tipo": "smtp", "servidor": "smtp.gmail.com", "puerto": 587, "usuario": "$SMTP_USUARIO", "clave": "$SMTP_CLAVE", "remitente": "facturas@tuempresa.es"},
+    "aeat": {"tipo": "soap", "cert": "$AEAT_CERT_PEM", "key": "$AEAT_KEY_PEM"}
+  }
+}
