@@ -77,4 +77,6 @@ class AgenteEmisor(Agente):
             for s, motivo in resp.rechazados.items():
                 self.ctx.verifactu.marcar_envio(s, "rechazado")
                 self.incidencia("AEAT_RECHAZO", f"Registro {s} rechazado: {motivo}", Severidad.ERROR, str(s))
+            self.publicar(Temas.AEAT_ENVIO, aceptados=len(resp.aceptados), rechazados=len(resp.rechazados),
+                          csv=resp.csv, registros=[r.num_serie for r in lote])
             self.log.info("AEAT: %d aceptados, %d rechazados (CSV %s)", len(resp.aceptados), len(resp.rechazados), resp.csv)

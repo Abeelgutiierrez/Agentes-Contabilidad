@@ -29,6 +29,20 @@ def main(argv=None) -> int:
     v = sub.add_parser("verificar", help="Verifica la integridad de la cadena VeriFactu")
     v.add_argument("--db", required=True, help="Ruta a verifactu.sqlite")
 
+    w = sub.add_parser("web", help="Abre La Oficina: el panel visual con los agentes trabajando")
+    gw = w.add_mutually_exclusive_group(required=True)
+    gw.add_argument("--demo", action="store_true", help="Con los datos de ejemplo de la cafetería")
+    gw.add_argument("--config", help="Con tu configuración")
+    w.add_argument("--puerto", type=int, default=8765)
+    w.add_argument("--no-abrir", action="store_true", help="No abrir el navegador automáticamente")
+
+    t = sub.add_parser("traza", help="Guarda el tráfico entre agentes en un JSON (para el panel sin servidor)")
+    gt = t.add_mutually_exclusive_group(required=True)
+    gt.add_argument("--demo", action="store_true")
+    gt.add_argument("--config")
+    t.add_argument("--fecha", help="AAAA-MM-DD (con --config)")
+    t.add_argument("-o", "--salida", required=True, help="Fichero .json o .js (el .js lo carga el panel sin servidor)")
+
     q = sub.add_parser("preguntar", help="Pregunta en lenguaje natural (requiere ANTHROPIC_API_KEY)")
     q.add_argument("--config", required=True)
     q.add_argument("pregunta")
@@ -86,6 +100,25 @@ def main(argv=None) -> int:
         for e in errores:
             print("  ✘", e)
         return 1 if errores else 0
+    elif a.cmd == "web":
+        from .web.servidor import arrancar
+
+        if a.demo:
+            from .demo import emitir_historicas, preparar
+
+            orq, trabajo = preparar()
+            # Historia previa (ventas de septiembre y octubre): se ve al abrir el panel
+            arrancar(orq, "demo", trabajo, a.puerto, not a.no_abrir,
+                     preparar=lambda s: emitir_historicas(orq, s.trazador.fijar_dia))
+        else:
+            from .config import crear_ecosistema
+
+            arrancar(crear_ecosistema(a.config), "real", None, a.puerto, not a.no_abrir)
+    elif a.cmd == "traza":
+        from .web.traza import guardar_traza
+
+        n = guardar_traza(a.salida, demo=a.demo, config=a.config, fecha=a.fecha)
+        print(f"{n} eventos guardados en {a.salida}")
     elif a.cmd == "preguntar":
         from .config import crear_ecosistema
 

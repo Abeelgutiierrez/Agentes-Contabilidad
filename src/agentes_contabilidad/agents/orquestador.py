@@ -45,7 +45,7 @@ class Orquestador:
             self.agentes[a.nombre] = a
         self.ultimo_informe: Optional[InformeFiscal] = None
         self.ruta_libro: Optional[str] = None  # si se fija, el estado se guarda tras cada ciclo
-        ctx.bus.suscribir(Temas.INFORME_FISCAL, self._on_informe)
+        ctx.bus.suscribir(Temas.INFORME_FISCAL, self._on_informe, "orquestador")
 
     def _on_informe(self, msg: Mensaje) -> None:
         self.ultimo_informe = msg.datos["informe"]
@@ -67,6 +67,23 @@ class Orquestador:
         self.guardar()
         return resumen
 
+    def ejecutar_fase(self, fase: str) -> None:
+        """Ejecuta una sola fase (p.ej. "ingesta" cuando llega un documento)."""
+        if fase not in self.FASES:
+            raise ValueError(f"Fase desconocida: {fase}")
+        self.ctx.bus.publicar(f"fase.{fase}", {"fase": fase}, emisor="orquestador")
+        self.guardar()
+
+    def resolver_incidencia(self, incidencia_id: str) -> bool:
+        """El dueño marca una incidencia como revisada."""
+        inc = self.ctx.libro.incidencias.get(incidencia_id)
+        if not inc or inc.resuelta:
+            return False
+        inc.resuelta = True
+        self.ctx.bus.publicar(Temas.INCIDENCIA_RESUELTA, {"incidencia": inc}, emisor="tu")
+        self.guardar()
+        return True
+
     def guardar(self) -> None:
         if self.ruta_libro:
             self.ctx.libro.guardar(self.ruta_libro)
@@ -74,7 +91,8 @@ class Orquestador:
     def emitir_factura(self, factura: Factura) -> bool:
         """Punto de entrada para que el negocio (o un TPV/ERP) emita una venta."""
         n = len(self.ctx.libro.facturas)
-        self.ctx.bus.publicar(Temas.FACTURA_A_EMITIR, {"factura": factura}, emisor="orquestador")
+        # La venta la pide el dueño del negocio (o su TPV/ERP): emisor "tu"
+        self.ctx.bus.publicar(Temas.FACTURA_A_EMITIR, {"factura": factura}, emisor="tu")
         self.guardar()
         return len(self.ctx.libro.facturas) > n and factura.estado.value != "borrador"
 

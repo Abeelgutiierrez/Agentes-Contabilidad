@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentes-contabilidad"
-version = "0.1.0"
+version = "0.2.0"
 description = "Ecosistema de agentes de IA que llevan la contabilidad de pequeños negocios, preparado para VeriFactu."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -25,6 +25,9 @@ agentes-conta = "agentes_contabilidad.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+agentes_contabilidad = ["web/static/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

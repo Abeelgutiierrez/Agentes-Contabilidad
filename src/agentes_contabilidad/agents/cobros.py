@@ -44,7 +44,7 @@ class AgenteCobros(Agente):
         self.libro.emails.append(email)
         if f.estado == EstadoFactura.EMITIDA:
             f.estado = EstadoFactura.ENVIADA
-        self.publicar(Temas.FACTURA_ENVIADA, factura=f)
+        self.publicar(Temas.FACTURA_ENVIADA, factura=f, email=email)
 
     def ejecutar_fase(self, fase: str) -> None:
         hoy = self.ctx.hoy
@@ -71,5 +71,6 @@ class AgenteCobros(Agente):
             self.ctx.correo.enviar(email)
             self.libro.emails.append(email)
             self.libro.recordatorios_cobro[f.id] = hoy
+            self.publicar(Temas.RECORDATORIO_COBRO, factura=f, email=email, dias=dias)
             self.incidencia("COBRO_VENCIDO", f"{f.num_serie} de {cliente.nombre}: {f.importe_total} € vencida hace {dias} días",
                             Severidad.AVISO, f.id)

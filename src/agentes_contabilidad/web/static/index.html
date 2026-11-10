@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Oficina</title>
+<!--INICIO_CABECERA-->
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fredoka:wght@500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<!--FIN_CABECERA-->
+<link rel="stylesheet" href="oficina.css">
+</head>
+<body>
+<!--INICIO_CUERPO-->
+<div class="app">
+  <header class="barra">
+    <div class="marca">
+      <svg class="logo" viewBox="0 0 34 34" aria-hidden="true">
+        <rect x="1" y="1" width="32" height="32" rx="9" style="fill:var(--accent)"/>
+        <path d="M9 23 L25 11" style="stroke:var(--accent-ink)" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M25 11 l-6 1.2 M25 11 l-1.2 6" style="stroke:var(--accent-ink)" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="10" cy="11" r="3.2" style="fill:var(--accent-ink)"/>
+        <circle cx="24" cy="23" r="3.2" style="fill:var(--accent-ink)" opacity=".7"/>
+      </svg>
+      <div style="min-width:0">
+        <h1>La Oficina</h1>
+        <div class="empresa" id="empresa">Agentes Contabilidad</div>
+      </div>
+    </div>
+    <div class="dia" id="dia" aria-live="polite"><b>—</b><span>Esperando la jornada</span></div>
+    <span class="pill" id="modo"><span class="punto"></span><span>Cargando…</span></span>
+    <div class="espacio"></div>
+    <div class="mandos" id="acciones" hidden>
+      <div class="grupo-fecha" title="Día de la próxima jornada">
+        <input type="date" id="fecha-jornada" aria-label="Día de la próxima jornada">
+        <button class="btn primario" id="btn-jornada" type="button">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.2" fill="currentColor"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span class="etq">Empezar jornada</span>
+        </button>
+      </div>
+      <button class="btn" id="btn-venta" type="button">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span class="etq">Nueva venta</span>
+      </button>
+      <button class="btn" id="btn-llega" type="button" hidden>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="4" width="12" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 5l5.5 4 5.5-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span class="etq">Llega una factura</span><span class="num" id="num-llega">0</span>
+      </button>
+    </div>
+    <button class="btn icono" id="btn-ayuda" type="button" aria-label="Cómo se lee la oficina" title="Cómo se lee la oficina">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6.2 6.2a1.9 1.9 0 1 1 2.6 1.7c-.5.2-.8.6-.8 1.1v.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r=".9" fill="currentColor"/></svg>
+    </button>
+  </header>
+
+  <nav class="fases" id="fases" aria-label="Fases de la jornada"></nav>
+
+  <main class="cuerpo">
+    <section class="escenario" aria-label="La oficina">
+      <div class="aviso-banda" id="aviso-grabacion" hidden>
+        <span>Estás viendo una grabación de ejemplo. Para abrir tu oficina en directo, ejecuta</span>
+        <code>agentes-conta web --demo</code>
+      </div>
+      <div class="escena-marco">
+        <svg id="escena" viewBox="0 0 1000 640" role="img" aria-label="Oficina con los agentes en sus mesas"></svg>
+      </div>
+      <div class="pie-escena">
+        <button class="btn icono" id="btn-play" type="button" aria-label="Reproducir">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.8v10.4L13 8z" fill="currentColor"/></svg>
+        </button>
+        <button class="btn icono" id="btn-reiniciar" type="button" aria-label="Volver al principio" title="Volver al principio">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 8a4.8 4.8 0 1 0 1.5-3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M3 2.2v3h3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="segmentado" role="group" aria-label="Velocidad">
+          <button type="button" data-vel="0.5" aria-pressed="false">½×</button>
+          <button type="button" data-vel="1" aria-pressed="true">1×</button>
+          <button type="button" data-vel="2" aria-pressed="false">2×</button>
+          <button type="button" data-vel="4" aria-pressed="false">4×</button>
+        </div>
+        <div class="linea-tiempo" id="linea-tiempo">
+          <canvas id="lienzo-tiempo"></canvas>
+          <input type="range" id="deslizador" min="0" max="0" value="0" aria-label="Momento de la jornada">
+        </div>
+        <span class="contador" id="contador">0 / 0</span>
+        <button class="btn icono" id="btn-rutas" type="button" aria-pressed="false" aria-label="Ver el tráfico acumulado" title="Ver el tráfico acumulado">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 12c3-8 9-8 12 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="2.5" cy="12" r="1.6" fill="currentColor"/><circle cx="13.5" cy="12" r="1.6" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <aside class="lateral">
+      <div class="pestanas" role="tablist">
+        <button role="tab" id="tab-feed" aria-selected="true" aria-controls="vista-feed" type="button">Lo que pasa</button>
+        <button role="tab" id="tab-mesa" aria-selected="false" aria-controls="vista-mesa" type="button">Tu mesa <span class="burbuja" id="burbuja-mesa" hidden>0</span></button>
+      </div>
+      <div class="vista" id="vista-feed" role="tabpanel" aria-labelledby="tab-feed">
+        <div class="filtro" id="filtro" hidden><span id="filtro-texto"></span><span class="espacio"></span><button type="button" id="quitar-filtro">Ver todo</button></div>
+        <ol class="feed" id="feed"></ol>
+        <div class="vacio" id="feed-vacio"><b>La oficina está tranquila</b>Cuando el equipo empiece a trabajar, aquí verás cada mensaje que se pasan, contado como una conversación.</div>
+      </div>
+      <div class="vista" id="vista-mesa" role="tabpanel" aria-labelledby="tab-mesa" hidden>
+        <div class="mesa" id="mesa"></div>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<div class="capa" id="capa" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <header><span id="modal-icono"></span><h2 id="modal-titulo"></h2><button class="cerrar" id="modal-cerrar" type="button" aria-label="Cerrar">
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></header>
+    <div class="contenido" id="modal-contenido"></div>
+  </div>
+</div>
+<div class="tostada" id="tostada" hidden></div>
+<!--FIN_CUERPO-->
+<script src="traza_demo.js"></script>
+<script src="oficina.js"></script>
+</body>
+</html>

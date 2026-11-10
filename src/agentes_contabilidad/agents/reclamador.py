@@ -89,4 +89,4 @@ class AgenteReclamador(Agente):
     def _escalar(self, f: FacturaFaltante, motivo: str) -> None:
         f.estado = EstadoFaltante.ESCALADA
         self.incidencia("FALTANTE_ESCALADA", f"{f.proveedor_nombre}: {motivo}. {f.motivo}", Severidad.AVISO, f.id)
-        self.publicar(Temas.ESCALADO_HUMANO, motivo=motivo, referencia=f.id)
+        self.publicar(Temas.ESCALADO_HUMANO, motivo=motivo, referencia=f.id, faltante=f)

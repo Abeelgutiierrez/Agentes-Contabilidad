@@ -14,3 +14,4 @@ jobs:
       - run: pip install -e ".[dev]"
       - run: pytest -q
       - run: agentes-conta demo
+      - run: agentes-conta traza --demo -o /tmp/traza.json

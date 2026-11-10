@@ -1,6 +1,6 @@
 """Agentes Contabilidad: ecosistema de agentes de IA para la contabilidad de pequeños negocios (VeriFactu)."""
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 from .agents import Contexto, Orquestador, Politicas  # noqa: E402
 from .bus import Bus, Temas  # noqa: E402

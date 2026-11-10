@@ -66,7 +66,9 @@ class SistemaVeriFactu:
     """Sistema Informático de Facturación (SIF) en modalidad VeriFactu."""
 
     def __init__(self, ruta_db: str = ":memory:", entorno: str = "pruebas", tz=None) -> None:
-        self.conn = sqlite3.connect(ruta_db)
+        # check_same_thread=False: el panel web lo consulta desde otros hilos
+        # (siempre bajo el cerrojo de la sesión, nunca en paralelo).
+        self.conn = sqlite3.connect(ruta_db, check_same_thread=False)
         self.entorno = entorno
         self.tz = tz or datetime.now().astimezone().tzinfo
         self.conn.execute(

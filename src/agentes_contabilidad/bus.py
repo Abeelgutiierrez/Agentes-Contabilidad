@@ -27,7 +27,9 @@ class Temas:
     FACTURA_RECIBIDA = "factura.recibida"              # {factura}
     FACTURA_A_EMITIR = "factura.a_emitir"              # {factura}
     FACTURA_EMITIDA = "factura.emitida"                # {factura, registro}
-    FACTURA_ENVIADA = "factura.enviada"                # {factura}
+    FACTURA_ENVIADA = "factura.enviada"                # {factura, email}
+    RECORDATORIO_COBRO = "cobro.recordatorio"          # {factura, email}
+    AEAT_ENVIO = "aeat.envio"                          # {aceptados, rechazados, csv}
     MOVIMIENTO_BANCARIO = "banco.movimiento"           # {movimiento}
     MOVIMIENTO_CONCILIADO = "banco.conciliado"         # {movimiento, factura}
     FACTURA_FALTANTE = "factura.faltante"              # {faltante}
@@ -35,6 +37,7 @@ class Temas:
     RECLAMACION_ENVIADA = "reclamacion.enviada"        # {faltante, email}
     ESCALADO_HUMANO = "escalado.humano"                # {motivo, referencia}
     INCIDENCIA = "revision.incidencia"                 # {incidencia}
+    INCIDENCIA_RESUELTA = "revision.resuelta"          # {incidencia}
     REVISION_SOLICITADA = "revision.solicitada"
     INFORME_FISCAL = "fiscal.informe"                  # {informe}
     CICLO_TERMINADO = "ciclo.terminado"
@@ -54,13 +57,23 @@ Manejador = Callable[[Mensaje], None]
 class Bus:
     def __init__(self) -> None:
         self._subs: Dict[str, List[Manejador]] = defaultdict(list)
+        self._nombres: Dict[str, List[str]] = defaultdict(list)  # quién escucha cada tema
         self._cola: Deque[Mensaje] = deque()
         self._despachando = False
         self.historial: List[Mensaje] = []
 
-    def suscribir(self, tema: str, manejador: Manejador) -> None:
-        """Suscribe a un tema. ``*`` recibe todos los mensajes."""
+    def suscribir(self, tema: str, manejador: Manejador, nombre: str | None = None) -> None:
+        """Suscribe a un tema. ``*`` recibe todos los mensajes.
+
+        ``nombre`` identifica al suscriptor (p.ej. el agente) para poder
+        dibujar quién recibe cada mensaje en el panel visual.
+        """
         self._subs[tema].append(manejador)
+        if nombre and nombre not in self._nombres[tema]:
+            self._nombres[tema].append(nombre)
+
+    def destinatarios(self, tema: str) -> List[str]:
+        return list(self._nombres.get(tema, []))
 
     def publicar(self, tema: str, datos: Dict[str, Any] | None = None, emisor: str = "sistema") -> None:
         msg = Mensaje(tema=tema, datos=datos or {}, emisor=emisor)

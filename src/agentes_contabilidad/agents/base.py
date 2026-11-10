@@ -61,7 +61,7 @@ class Agente:
         self.ctx = ctx
         self.log = logging.getLogger(f"agente.{self.nombre}")
         for fase in self.fases:
-            ctx.bus.suscribir(f"fase.{fase}", self._en_fase)
+            ctx.bus.suscribir(f"fase.{fase}", self._en_fase, self.nombre)
         self.suscribir()
 
     # --- a sobreescribir por cada agente
@@ -83,7 +83,7 @@ class Agente:
         self.ctx.bus.publicar(tema, datos, emisor=self.nombre)
 
     def escuchar(self, tema: str, manejador) -> None:
-        self.ctx.bus.suscribir(tema, manejador)
+        self.ctx.bus.suscribir(tema, manejador, self.nombre)
 
     def incidencia(self, codigo: str, mensaje: str, severidad: Severidad = Severidad.AVISO,
                    referencia: Optional[str] = None) -> Incidencia:

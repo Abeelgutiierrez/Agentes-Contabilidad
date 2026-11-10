@@ -6,6 +6,18 @@ Cada agente tiene un único trabajo y se comunica con los demás a través de un
 
 > **Estado:** MVP funcional (v0.1). El núcleo VeriFactu reproduce el ejemplo oficial de huella de la AEAT, pero el envío real a la AEAT todavía no está terminado (ver [Roadmap](docs/roadmap.md)). No lo uses en producción sin la revisión de un asesor y sin homologar el software.
 
+## La Oficina
+
+![La Oficina: los agentes trabajando](docs/oficina.png)
+
+Los agentes trabajan como personas en una oficina: ves a quién le llega cada factura, cómo el detective avisa al reclamador y qué notas caen en tu mesa. Cada mensaje vuela de una mesa a otra y se puede abrir para leer el email, la factura o la huella VeriFactu.
+
+```bash
+agentes-conta web --demo      # abre la oficina de ejemplo en el navegador
+```
+
+Más detalles en [docs/oficina.md](docs/oficina.md).
+
 ## El ecosistema
 
 ![Cómo funciona el ecosistema de agentes](docs/ecosistema.png)
@@ -60,9 +72,10 @@ git clone https://github.com/Abeelgutiierrez/Agentes-Contabilidad.git
 cd Agentes-Contabilidad
 pip install -e ".[dev]"
 
-agentes-conta demo        # simula dos días de trabajo de una cafetería ficticia
+agentes-conta web --demo  # la oficina animada en el navegador
+agentes-conta demo        # lo mismo, contado en la consola
 agentes-conta agentes     # lista los agentes y su rol
-pytest -q                 # 21 tests
+pytest -q                 # 24 tests
 ```
 
 ### En Windows (PowerShell)
@@ -72,7 +85,7 @@ cd "$HOME\asistentes contabilidad\Agentes-Contabilidad"
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1      # si da error de permisos: Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 pip install -e ".[dev]"
-agentes-conta demo
+agentes-conta web --demo
 ```
 
 La demo usa los datos de `examples/`: facturas en una carpeta (una duplicada, otra con el total mal y un documento que no es una factura), un extracto bancario con pagos sin factura y ventas con VeriFactu. Verás cómo el detective encuentra las facturas que faltan, el reclamador escribe a los proveedores, el revisor abre incidencias y, cuando llega la factura que faltaba, la falta se cierra sola.
@@ -87,6 +100,7 @@ La demo usa los datos de `examples/`: facturas en una carpeta (una duplicada, ot
 agentes-conta ciclo --config mi_config.json --exportar estado.json
 agentes-conta emitir --config mi_config.json --factura examples/factura_venta.json
 agentes-conta verificar --db datos_runtime/verifactu.sqlite
+agentes-conta web --config mi_config.json
 agentes-conta preguntar --config mi_config.json "¿Qué facturas me faltan y cuánto IVA pago este trimestre?"
 ```
 
@@ -101,6 +115,8 @@ src/agentes_contabilidad/
 ├── libro.py            # estado contable compartido (persistido entre ejecuciones)
 ├── llm.py              # Claude con modo sin IA
 ├── config.py           # monta el ecosistema desde un JSON
+├── trazas.py           # convierte el tráfico del bus en eventos para el panel
+├── web/                # La Oficina: servidor local y panel animado (sin dependencias)
 ├── agents/             # un fichero por agente + orquestador
 ├── connectors/         # documentos (carpeta, Drive, IMAP), banco, correo, AEAT
 └── verifactu/          # huella encadenada, QR, registros inalterables, XML, validación de NIF
@@ -108,6 +124,7 @@ src/agentes_contabilidad/
 
 ## Documentación
 
+- [La Oficina: el panel visual](docs/oficina.md)
 - [Arquitectura y cómo añadir un agente o un conector](docs/arquitectura.md)
 - [VeriFactu: qué cubre el proyecto y qué falta](docs/verifactu.md)
 - [Roadmap](docs/roadmap.md)
