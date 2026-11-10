@@ -10,8 +10,8 @@
 - [x] Borrador del modelo 303 y aviso de plazos
 - [x] CLI, persistencia entre ejecuciones, 21 tests y CI en GitHub Actions
 
-## v0.2 — La Oficina (actual)
-- [x] Panel visual: los agentes como personas en una oficina, con el tráfico de mensajes animado
+## v0.2 — Panel (actual)
+- [x] Centro de control: cifras del negocio, equipo de agentes en directo y avisos con qué hacer
 - [x] Modo en directo (`agentes-conta web`) y grabación reproducible sin servidor
 - [x] Desde el panel: lanzar jornadas, emitir ventas, recibir facturas y revisar las notas de tu mesa
 - [x] 24 tests (incluida la API del panel)

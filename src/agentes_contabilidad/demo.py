@@ -107,5 +107,5 @@ def ejecutar(verbose: bool = True):
     orq.ctx.libro.exportar_json(str(trabajo / "datos_runtime" / "libro.json"))
     p(f"\n▶ Estado completo exportado a {trabajo / 'datos_runtime' / 'libro.json'}")
     p(f"▶ Registros VeriFactu en {trabajo / 'datos_runtime' / 'verifactu.sqlite'}")
-    p("\n▶ Para verlo como una oficina animada: agentes-conta web --demo")
+    p("\n▶ Para verlo en el panel: agentes-conta web --demo")
     return orq

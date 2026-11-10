@@ -55,9 +55,9 @@ def _post(url, datos):
         return json.loads(r.read())
 
 
-def test_api_de_la_oficina(servidor):
+def test_api_del_panel(servidor):
     estado, html = _get(servidor + "/")
-    assert estado == 200 and b"La Oficina" in html
+    assert estado == 200 and b"Agentes Contabilidad" in html
     info = json.loads(_get(servidor + "/api/info")[1])
     assert info["modo"] == "demo" and len(info["fases"]) == 8
     n0 = len(json.loads(_get(servidor + "/api/eventos?desde=0")[1])["eventos"])

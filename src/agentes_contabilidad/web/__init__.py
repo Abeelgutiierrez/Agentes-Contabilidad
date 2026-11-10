@@ -1,1 +1,1 @@
-"""Panel visual "La Oficina": los agentes como personas que se pasan mensajes."""
+"""Panel web: cifras del negocio y el equipo de agentes trabajando en directo."""

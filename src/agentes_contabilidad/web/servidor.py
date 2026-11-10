@@ -1,4 +1,4 @@
-"""Servidor local del panel visual "La Oficina".
+"""Servidor local del panel de Agentes Contabilidad.
 
 Solo usa la biblioteca estándar. Escucha únicamente en 127.0.0.1: el panel
 es para el dueño del negocio en su propio ordenador.
@@ -27,8 +27,8 @@ from typing import Any, Dict, Optional
 from urllib.parse import parse_qs, urlparse
 
 from ..bus import Temas
-from ..models import Direccion, Factura, LineaFactura
-from ..trazas import NOMBRES_FASE, Trazador, _faltante, _incidencia, eur, participantes
+from ..models import Direccion, EstadoFactura, Factura, LineaFactura
+from ..trazas import NOMBRES_FASE, Trazador, _factura, _faltante, _incidencia, eur, participantes
 from ..verifactu.validaciones import validar_nif
 
 ESTATICOS = Path(__file__).resolve().parent / "static"
@@ -51,6 +51,7 @@ class Sesion:
         self.ultimo_informe = {"trimestre": inf.trimestre, "anio": inf.anio, "repercutido": eur(inf.total_repercutido),
                                "soportado": eur(inf.total_soportado), "resultado": eur(inf.resultado_303),
                                "a_pagar": inf.resultado_303 > 0, "plazo": inf.plazo.strftime("%d/%m/%Y"),
+                               "resultado_num": float(inf.resultado_303), "plazo_iso": inf.plazo.isoformat(),
                                "avisos": list(inf.avisos)}
 
     # ------------------------------------------------------------- lectura
@@ -92,6 +93,9 @@ class Sesion:
                 "compras": eur(sum((f.importe_total for f in recibidas), Decimal(0))),
             },
             "informe": self.ultimo_informe,
+            # Facturas emitidas que el cliente todavía no ha pagado
+            "por_cobrar": [_factura(f) for f in emitidas
+                           if f.estado in (EstadoFactura.EMITIDA, EstadoFactura.ENVIADA)],
             "por_llegar": len(self._por_llegar()),
             "emails": len(lb.emails),
         }
@@ -236,13 +240,13 @@ def arrancar(orq, modo: str, trabajo: Optional[Path] = None, puerto: int = 8765,
         preparar(sesion)
     servidor = ThreadingHTTPServer(("127.0.0.1", puerto), crear_manejador(sesion))
     url = f"http://127.0.0.1:{puerto}/"
-    print(f"\n  La Oficina está abierta en {url}")
+    print(f"\n  Panel de Agentes Contabilidad abierto en {url}")
     print("  (Ctrl+C para cerrar)\n")
     if abrir:
         threading.Timer(0.8, lambda: webbrowser.open(url)).start()
     try:
         servidor.serve_forever()
     except KeyboardInterrupt:
-        print("\n  Oficina cerrada. ¡Hasta mañana!")
+        print("\n  Panel cerrado.")
     finally:
         servidor.server_close()

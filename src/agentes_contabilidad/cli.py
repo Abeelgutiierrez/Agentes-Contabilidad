@@ -29,7 +29,7 @@ def main(argv=None) -> int:
     v = sub.add_parser("verificar", help="Verifica la integridad de la cadena VeriFactu")
     v.add_argument("--db", required=True, help="Ruta a verifactu.sqlite")
 
-    w = sub.add_parser("web", help="Abre La Oficina: el panel visual con los agentes trabajando")
+    w = sub.add_parser("web", help="Abre el panel: cifras del negocio y el equipo de agentes trabajando")
     gw = w.add_mutually_exclusive_group(required=True)
     gw.add_argument("--demo", action="store_true", help="Con los datos de ejemplo de la cafetería")
     gw.add_argument("--config", help="Con tu configuración")

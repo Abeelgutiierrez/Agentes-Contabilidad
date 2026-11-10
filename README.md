@@ -6,17 +6,17 @@ Cada agente tiene un único trabajo y se comunica con los demás a través de un
 
 > **Estado:** MVP funcional (v0.1). El núcleo VeriFactu reproduce el ejemplo oficial de huella de la AEAT, pero el envío real a la AEAT todavía no está terminado (ver [Roadmap](docs/roadmap.md)). No lo uses en producción sin la revisión de un asesor y sin homologar el software.
 
-## La Oficina
+## El panel
 
-![La Oficina: los agentes trabajando](docs/oficina.png)
+![Panel de Agentes Contabilidad](docs/panel.png)
 
-Los agentes trabajan como personas en una oficina: ves a quién le llega cada factura, cómo el detective avisa al reclamador y qué notas caen en tu mesa. Cada mensaje vuela de una mesa a otra y se puede abrir para leer el email, la factura o la huella VeriFactu.
+Pensado para el dueño de un bar, una cafetería o una inmobiliaria: arriba, lo que le importa (facturas que faltan, lo que le deben, el IVA del trimestre y si VeriFactu está al día); debajo, su equipo de agentes trabajando en directo, con cada mensaje viajando entre ellos. A la derecha, solo lo que necesita su decisión, con lo que tiene que hacer.
 
 ```bash
-agentes-conta web --demo      # abre la oficina de ejemplo en el navegador
+agentes-conta web --demo      # abre el panel de ejemplo en el navegador
 ```
 
-Más detalles en [docs/oficina.md](docs/oficina.md).
+Más detalles en [docs/panel.md](docs/panel.md).
 
 ## El ecosistema
 
@@ -72,7 +72,7 @@ git clone https://github.com/Abeelgutiierrez/Agentes-Contabilidad.git
 cd Agentes-Contabilidad
 pip install -e ".[dev]"
 
-agentes-conta web --demo  # la oficina animada en el navegador
+agentes-conta web --demo  # el panel en el navegador
 agentes-conta demo        # lo mismo, contado en la consola
 agentes-conta agentes     # lista los agentes y su rol
 pytest -q                 # 24 tests
@@ -116,7 +116,7 @@ src/agentes_contabilidad/
 ├── llm.py              # Claude con modo sin IA
 ├── config.py           # monta el ecosistema desde un JSON
 ├── trazas.py           # convierte el tráfico del bus en eventos para el panel
-├── web/                # La Oficina: servidor local y panel animado (sin dependencias)
+├── web/                # panel: servidor local y frontend (sin dependencias)
 ├── agents/             # un fichero por agente + orquestador
 ├── connectors/         # documentos (carpeta, Drive, IMAP), banco, correo, AEAT
 └── verifactu/          # huella encadenada, QR, registros inalterables, XML, validación de NIF
@@ -124,7 +124,7 @@ src/agentes_contabilidad/
 
 ## Documentación
 
-- [La Oficina: el panel visual](docs/oficina.md)
+- [El panel](docs/panel.md)
 - [Arquitectura y cómo añadir un agente o un conector](docs/arquitectura.md)
 - [VeriFactu: qué cubre el proyecto y qué falta](docs/verifactu.md)
 - [Roadmap](docs/roadmap.md)

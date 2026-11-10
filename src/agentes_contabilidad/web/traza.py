@@ -1,4 +1,4 @@
-"""Genera una traza grabada para ver La Oficina sin servidor (modo reproducción)."""
+"""Genera una traza grabada para ver el panel sin servidor (modo demostración)."""
 from __future__ import annotations
 
 import json

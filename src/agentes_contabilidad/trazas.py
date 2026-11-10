@@ -81,6 +81,9 @@ def _factura(f) -> Dict[str, Any]:
         "base": eur(f.base_imponible),
         "iva": eur(f.cuota_total),
         "total": eur(f.importe_total),
+        "importe": float(f.importe_total),
+        "direccion": f.direccion.value,
+        "vencimiento_iso": f.vencimiento.isoformat() if f.vencimiento else None,
         "estado": f.estado.value,
         "lineas": [
             {"descripcion": l.descripcion, "cantidad": str(l.cantidad), "precio": eur(l.precio_unitario),
@@ -102,6 +105,7 @@ def _incidencia(i) -> Dict[str, Any]:
 def _faltante(x) -> Dict[str, Any]:
     return {"id": x.id, "proveedor": x.proveedor_nombre, "motivo": x.motivo,
             "importe": eur(x.importe_estimado) if x.importe_estimado else None,
+            "importe_num": float(x.importe_estimado) if x.importe_estimado else 0.0,
             "periodo": x.periodo, "intentos": x.intentos, "estado": x.estado.value}
 
 
@@ -214,6 +218,7 @@ def describir(msg: Mensaje, bus: Bus) -> Optional[Dict[str, Any]]:
                   detalle={"informe": {
                       "trimestre": inf.trimestre, "anio": inf.anio, "repercutido": eur(inf.total_repercutido),
                       "soportado": eur(inf.total_soportado), "resultado": eur(res), "plazo": _fecha(inf.plazo),
+                      "resultado_num": float(res), "plazo_iso": inf.plazo.isoformat(),
                       "avisos": list(inf.avisos)}})
     elif t == Temas.CICLO_TERMINADO:
         ev.update(a=[], tipo="jornada", titulo="Fin de la jornada",
