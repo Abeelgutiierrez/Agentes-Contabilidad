@@ -8,6 +8,10 @@ Cada agente tiene un único trabajo y se comunica con los demás a través de un
 
 ## El ecosistema
 
+![Cómo funciona el ecosistema de agentes](docs/ecosistema.png)
+
+<details><summary>Diagrama de eventos (Mermaid)</summary>
+
 ```mermaid
 flowchart LR
     subgraph Fuentes
@@ -30,6 +34,8 @@ flowchart LR
     RV -- revision.incidencia --> H
     F(Fiscal) -- modelo 303 --> H
 ```
+
+</details>
 
 | Agente | Qué hace | Se entera de… | Avisa a… |
 |---|---|---|---|
@@ -57,6 +63,16 @@ pip install -e ".[dev]"
 agentes-conta demo        # simula dos días de trabajo de una cafetería ficticia
 agentes-conta agentes     # lista los agentes y su rol
 pytest -q                 # 21 tests
+```
+
+### En Windows (PowerShell)
+
+```powershell
+cd "$HOME\asistentes contabilidad\Agentes-Contabilidad"
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1      # si da error de permisos: Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+pip install -e ".[dev]"
+agentes-conta demo
 ```
 
 La demo usa los datos de `examples/`: facturas en una carpeta (una duplicada, otra con el total mal y un documento que no es una factura), un extracto bancario con pagos sin factura y ventas con VeriFactu. Verás cómo el detective encuentra las facturas que faltan, el reclamador escribe a los proveedores, el revisor abre incidencias y, cuando llega la factura que faltaba, la falta se cierra sola.
